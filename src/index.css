@@ -120,12 +120,12 @@
       inset 0 0 0 1px hsl(var(--game-combat) / 0.6),
       0 0 20px hsl(var(--game-combat) / 0.4),
       0 0 40px hsl(var(--game-combat) / 0.2);
-    animation: pulse-critical 5s ease-in-out infinite;
+    animation: pulse-critical 15s ease-in-out infinite;
   }
 
   @keyframes pulse-critical {
     0%, 100% { opacity: 1; }
-    50% { opacity: 0.7; }
+    50% { opacity: 0.6; }
   }
 
   /* Panel hover effect */
