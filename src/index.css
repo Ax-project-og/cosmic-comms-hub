@@ -193,7 +193,7 @@
     box-shadow: 
       0 0 15px hsl(var(--game-combat) / 0.5),
       0 0 30px hsl(var(--game-combat) / 0.3);
-    animation: badge-pulse-critical 2s ease-in-out infinite;
+    animation: badge-pulse-critical 8s ease-in-out infinite;
   }
 
   @keyframes badge-pulse {
