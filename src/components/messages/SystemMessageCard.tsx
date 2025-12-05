@@ -1,6 +1,5 @@
 import { SystemMessage } from '@/types/messages';
 import { MessageBadge } from './MessageBadge';
-import { SeverityBadge } from './SeverityBadge';
 import { cn } from '@/lib/utils';
 import { Server, AlertTriangle, BarChart3 } from 'lucide-react';
 
@@ -53,7 +52,6 @@ export function SystemMessageCard({ message, onClick }: SystemMessageCardProps) 
         {/* Content */}
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1 flex-wrap">
-            <SeverityBadge severity={severity} />
             <MessageBadge type="system" />
             {actionRequired && <MessageBadge type="alert" />}
             {!isRead && <span className="unread-dot" />}

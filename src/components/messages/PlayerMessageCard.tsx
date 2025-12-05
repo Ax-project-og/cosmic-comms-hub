@@ -1,6 +1,5 @@
 import { PlayerMessage } from '@/types/messages';
 import { MessageBadge } from './MessageBadge';
-import { SeverityBadge } from './SeverityBadge';
 import { cn } from '@/lib/utils';
 import { User, Users, Shield, Swords, HelpCircle } from 'lucide-react';
 
@@ -61,7 +60,6 @@ export function PlayerMessageCard({ message, onClick }: PlayerMessageCardProps) 
         {/* Content */}
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1 flex-wrap">
-            <SeverityBadge severity={severity} />
             <MessageBadge type="player" />
             <MessageBadge type="private" />
             {!isRead && <span className="unread-dot" />}
