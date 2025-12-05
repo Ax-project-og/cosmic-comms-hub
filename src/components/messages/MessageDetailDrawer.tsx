@@ -53,23 +53,23 @@ export function MessageDetailDrawer({ message, open, onClose }: MessageDetailDra
         if (message.subType === 'attack_incoming') {
           return (
             <>
-              <Button variant="default" className="w-full bg-game-combat hover:bg-game-combat/80">
+              <Button size="sm" variant="default" className="w-full bg-game-combat hover:bg-game-combat/80">
                 Envoyer flotte
               </Button>
-              <Button variant="outline" className="w-full">
+              <Button size="sm" variant="outline" className="w-full">
                 Simuler défense
               </Button>
             </>
           );
         }
         return (
-          <Button variant="outline" className="w-full">
+          <Button size="sm" variant="outline" className="w-full">
             Voir détails
           </Button>
         );
       case 'player':
         return (
-          <Button variant="default" className="w-full bg-game-player hover:bg-game-player/80">
+          <Button size="sm" variant="default" className="w-full bg-game-player hover:bg-game-player/80">
             Répondre
           </Button>
         );
@@ -77,10 +77,10 @@ export function MessageDetailDrawer({ message, open, onClose }: MessageDetailDra
         if (message.status === 'pending') {
           return (
             <>
-              <Button variant="default" className="w-full bg-game-player hover:bg-game-player/80">
+              <Button size="sm" variant="default" className="w-full bg-game-player hover:bg-game-player/80">
                 Accepter
               </Button>
-              <Button variant="outline" className="w-full">
+              <Button size="sm" variant="outline" className="w-full">
                 Renégocier
               </Button>
             </>
@@ -89,7 +89,7 @@ export function MessageDetailDrawer({ message, open, onClose }: MessageDetailDra
         return null;
       case 'espionage':
         return (
-          <Button variant="default" className="w-full bg-game-espionage hover:bg-game-espionage/80">
+          <Button size="sm" variant="default" className="w-full bg-game-espionage hover:bg-game-espionage/80">
             Relancer une sonde
           </Button>
         );
@@ -103,19 +103,18 @@ export function MessageDetailDrawer({ message, open, onClose }: MessageDetailDra
       <DrawerContent className="max-h-[90vh] bg-panel border-panel-border">
         {message && (
           <>
-            <DrawerHeader className="border-b border-panel-border">
-              <div className="space-y-3">
+            <DrawerHeader className="border-b border-panel-border py-3">
+              <div className="space-y-1.5">
                 <div className="flex items-center gap-2 flex-wrap">
                   <MessageBadge type={message.type} />
                 </div>
-                <DrawerTitle className="text-xl font-display text-foreground text-left">
+                <DrawerTitle className="text-lg font-display text-foreground text-left">
                   {message.title}
                 </DrawerTitle>
-                <div className="text-sm text-slate-300">
+                <div className="text-xs text-muted-foreground">
                   {message.timestamp.toLocaleDateString('fr-FR', {
-                    weekday: 'long',
                     day: 'numeric',
-                    month: 'long',
+                    month: 'short',
                     year: 'numeric',
                   })} à {message.timestamp.toLocaleTimeString('fr-FR', {
                     hour: '2-digit',
@@ -125,14 +124,14 @@ export function MessageDetailDrawer({ message, open, onClose }: MessageDetailDra
               </div>
             </DrawerHeader>
 
-            <div className="p-6 overflow-auto max-h-[50vh]">
+            <div className="p-4 overflow-auto flex-1">
               {renderContent()}
             </div>
 
-            <DrawerFooter className="border-t border-panel-border">
+            <DrawerFooter className="border-t border-panel-border py-2 gap-1.5">
               {renderActions()}
               <DrawerClose asChild>
-                <Button variant="ghost" className="w-full">Fermer</Button>
+                <Button variant="ghost" size="sm" className="w-full">Fermer</Button>
               </DrawerClose>
             </DrawerFooter>
           </>
