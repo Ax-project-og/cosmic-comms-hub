@@ -39,17 +39,11 @@ export function MessagesList({ messages }: MessagesListProps) {
     );
   }
 
-  // Sort messages: unread and critical first, then by timestamp
   const sortedMessages = [...messages].sort((a, b) => {
-    // Critical unread first
     if (a.isCritical && !a.isRead && (!b.isCritical || b.isRead)) return -1;
     if (b.isCritical && !b.isRead && (!a.isCritical || a.isRead)) return 1;
-    
-    // Then unread
     if (!a.isRead && b.isRead) return -1;
     if (a.isRead && !b.isRead) return 1;
-    
-    // Then by timestamp (newest first)
     return b.timestamp.getTime() - a.timestamp.getTime();
   });
 
@@ -59,10 +53,7 @@ export function MessagesList({ messages }: MessagesListProps) {
         {sortedMessages.map((message, index) => (
           <div
             key={message.id}
-            className={cn(
-              'animate-fade-in',
-              `animation-delay-${index * 50}`
-            )}
+            className="animate-fade-in"
             style={{ animationDelay: `${index * 50}ms` }}
           >
             <MessageCard 
