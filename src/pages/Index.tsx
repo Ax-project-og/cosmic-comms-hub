@@ -1,11 +1,14 @@
 import { useState, useMemo } from 'react';
 import { MessagesHeader } from '@/components/messages/MessagesHeader';
 import { MessagesTabs, TabFilter } from '@/components/messages/MessagesTabs';
-import { MessagesList } from '@/components/messages/MessagesList';
+import { MessagesList, DrawerMode } from '@/components/messages/MessagesList';
 import { mockMessages } from '@/data/mockMessages';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { PanelBottom, PanelRight } from 'lucide-react';
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState<TabFilter>('all');
+  const [drawerMode, setDrawerMode] = useState<DrawerMode>('bottom');
 
   // Calculate counts for each tab
   const counts = useMemo(() => {
@@ -52,13 +55,31 @@ const Index = () => {
 
       {/* Main content */}
       <main className="container max-w-6xl mx-auto px-4 py-6">
+        {/* Mode toggle */}
+        <div className="flex items-center justify-end mb-4 gap-2">
+          <span className="text-xs text-muted-foreground">Mode modale:</span>
+          <ToggleGroup 
+            type="single" 
+            value={drawerMode} 
+            onValueChange={(value) => value && setDrawerMode(value as DrawerMode)}
+            className="bg-panel border border-panel-border rounded-lg"
+          >
+            <ToggleGroupItem value="bottom" aria-label="Modale bas" className="px-2 py-1 data-[state=on]:bg-primary/20">
+              <PanelBottom className="h-4 w-4" />
+            </ToggleGroupItem>
+            <ToggleGroupItem value="right" aria-label="Modale droite" className="px-2 py-1 data-[state=on]:bg-primary/20">
+              <PanelRight className="h-4 w-4" />
+            </ToggleGroupItem>
+          </ToggleGroup>
+        </div>
+
         <MessagesHeader totalUnread={totalUnread} criticalUnread={criticalUnread} />
         <MessagesTabs 
           activeTab={activeTab} 
           onTabChange={setActiveTab} 
           counts={counts}
         />
-        <MessagesList messages={filteredMessages} />
+        <MessagesList messages={filteredMessages} drawerMode={drawerMode} />
       </main>
     </div>
   );

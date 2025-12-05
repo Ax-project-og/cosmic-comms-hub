@@ -2,13 +2,17 @@ import { useState } from 'react';
 import { Message } from '@/types/messages';
 import { MessageCard } from './MessageCard';
 import { MessageDetailDrawer } from './MessageDetailDrawer';
+import { MessageDetailSheet } from './MessageDetailSheet';
 import { Inbox } from 'lucide-react';
+
+export type DrawerMode = 'bottom' | 'right';
 
 interface MessagesListProps {
   messages: Message[];
+  drawerMode?: DrawerMode;
 }
 
-export function MessagesList({ messages }: MessagesListProps) {
+export function MessagesList({ messages, drawerMode = 'bottom' }: MessagesListProps) {
   const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -62,11 +66,19 @@ export function MessagesList({ messages }: MessagesListProps) {
         ))}
       </div>
 
-      <MessageDetailDrawer
-        message={selectedMessage}
-        open={drawerOpen}
-        onClose={handleCloseDrawer}
-      />
+      {drawerMode === 'bottom' ? (
+        <MessageDetailDrawer
+          message={selectedMessage}
+          open={drawerOpen}
+          onClose={handleCloseDrawer}
+        />
+      ) : (
+        <MessageDetailSheet
+          message={selectedMessage}
+          open={drawerOpen}
+          onClose={handleCloseDrawer}
+        />
+      )}
     </>
   );
 }
