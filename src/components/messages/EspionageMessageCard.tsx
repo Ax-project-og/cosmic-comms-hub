@@ -1,6 +1,5 @@
 import { EspionageMessage } from '@/types/messages';
 import { MessageBadge } from './MessageBadge';
-import { SeverityBadge } from './SeverityBadge';
 import { cn } from '@/lib/utils';
 import { Eye, EyeOff, Target, Shield, Swords, Gem, Hexagon, Zap, AlertTriangle, ThumbsUp, ThumbsDown, RefreshCw } from 'lucide-react';
 
@@ -64,7 +63,6 @@ export function EspionageMessageCard({ message, onClick }: EspionageMessageCardP
         {/* Content */}
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1 flex-wrap">
-            <SeverityBadge severity={severity} />
             <MessageBadge type="espionage" />
             {isDetected && <MessageBadge type="alert" />}
             {!isRead && <span className="unread-dot" />}
