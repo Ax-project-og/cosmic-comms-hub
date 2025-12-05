@@ -1,15 +1,18 @@
 import { CombatReportMessage } from '@/types/messages';
 import { MessageBadge } from './MessageBadge';
+import { SeverityBadge } from './SeverityBadge';
 import { cn } from '@/lib/utils';
 import { Trophy, Skull, Scale, Clock, Package, Sparkles } from 'lucide-react';
 
 interface CombatReportCardProps {
   message: CombatReportMessage;
+  onClick?: () => void;
 }
 
-export function CombatReportCard({ message }: CombatReportCardProps) {
+export function CombatReportCard({ message, onClick }: CombatReportCardProps) {
   const { 
-    isRead, 
+    isRead,
+    severity,
     outcome, 
     enemyName, 
     location, 
@@ -31,6 +34,7 @@ export function CombatReportCard({ message }: CombatReportCardProps) {
 
   return (
     <div
+      onClick={onClick}
       className={cn(
         'relative rounded-lg border p-4 transition-all duration-200 cursor-pointer',
         'bg-panel border-panel-border',
@@ -50,7 +54,8 @@ export function CombatReportCard({ message }: CombatReportCardProps) {
 
         {/* Content */}
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-1">
+          <div className="flex items-center gap-2 mb-1 flex-wrap">
+            <SeverityBadge severity={severity} />
             <MessageBadge type="combat" />
             <MessageBadge type="report" />
             {!isRead && <span className="unread-dot" />}
@@ -60,8 +65,8 @@ export function CombatReportCard({ message }: CombatReportCardProps) {
             Rapport de combat
           </h3>
           
-          <p className="text-sm text-muted-foreground mb-3">
-            Combat contre <span className="text-foreground font-medium">{enemyName}</span> • {location}
+          <p className="text-sm text-slate-300 mb-3">
+            Combat contre <span className="text-slate-100 font-medium">{enemyName}</span> • {location}
           </p>
 
           {/* Outcome banner */}
@@ -81,7 +86,7 @@ export function CombatReportCard({ message }: CombatReportCardProps) {
             {outcome === 'victory' && (
               <div className="flex items-center gap-2">
                 <Package className="w-4 h-4 text-game-commerce" />
-                <span className="text-muted-foreground">Butin:</span>
+                <span className="text-slate-400">Butin:</span>
                 <span className="text-game-commerce font-mono font-semibold">
                   {(loot.metal + loot.crystal + loot.energy).toLocaleString()} res.
                 </span>
@@ -91,7 +96,7 @@ export function CombatReportCard({ message }: CombatReportCardProps) {
             {losses.length > 0 && (
               <div className="flex items-center gap-2">
                 <Skull className="w-4 h-4 text-game-combat" />
-                <span className="text-muted-foreground">Pertes:</span>
+                <span className="text-slate-400">Pertes:</span>
                 <span className="text-game-combat font-mono">
                   {losses.reduce((acc, l) => acc + l.count, 0)} unités
                 </span>
@@ -99,9 +104,9 @@ export function CombatReportCard({ message }: CombatReportCardProps) {
             )}
 
             <div className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-muted-foreground" />
-              <span className="text-muted-foreground">Débris:</span>
-              <span className="font-mono text-foreground">
+              <Sparkles className="w-4 h-4 text-slate-400" />
+              <span className="text-slate-400">Débris:</span>
+              <span className="font-mono text-slate-200">
                 {(debrisField.metal + debrisField.crystal).toLocaleString()}
               </span>
             </div>
@@ -110,10 +115,10 @@ export function CombatReportCard({ message }: CombatReportCardProps) {
 
         {/* Right side */}
         <div className="flex-shrink-0 text-right">
-          <div className="text-xs text-muted-foreground mb-1">
+          <div className="text-xs text-slate-400 mb-1">
             {timestamp.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
           </div>
-          <div className="flex items-center gap-1 text-xs text-muted-foreground">
+          <div className="flex items-center gap-1 text-xs text-slate-400">
             <Clock className="w-3 h-3" />
             <span className="font-mono">{combatDuration}</span>
           </div>

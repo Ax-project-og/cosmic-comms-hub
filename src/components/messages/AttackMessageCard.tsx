@@ -1,16 +1,19 @@
 import { AttackMessage } from '@/types/messages';
 import { MessageBadge } from './MessageBadge';
+import { SeverityBadge } from './SeverityBadge';
 import { cn } from '@/lib/utils';
 import { Swords, Clock, Target, Zap, Ship } from 'lucide-react';
 
 interface AttackMessageCardProps {
   message: AttackMessage;
+  onClick?: () => void;
 }
 
-export function AttackMessageCard({ message }: AttackMessageCardProps) {
+export function AttackMessageCard({ message, onClick }: AttackMessageCardProps) {
   const { 
     isRead, 
-    isCritical, 
+    isCritical,
+    severity,
     attackerName, 
     attackerAlliance, 
     targetPlanet, 
@@ -22,6 +25,7 @@ export function AttackMessageCard({ message }: AttackMessageCardProps) {
 
   return (
     <div
+      onClick={onClick}
       className={cn(
         'relative rounded-lg border p-4 transition-all duration-200 cursor-pointer',
         'bg-panel border-panel-border',
@@ -46,9 +50,9 @@ export function AttackMessageCard({ message }: AttackMessageCardProps) {
 
         {/* Content */}
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-1">
+          <div className="flex items-center gap-2 mb-1 flex-wrap">
+            <SeverityBadge severity={severity} />
             <MessageBadge type="combat" />
-            {isCritical && <MessageBadge type="alert" />}
             {!isRead && <span className="unread-dot" />}
           </div>
 
@@ -60,30 +64,30 @@ export function AttackMessageCard({ message }: AttackMessageCardProps) {
           <div className="grid grid-cols-2 gap-3 mb-3">
             <div className="flex items-center gap-2 text-sm">
               <Target className="w-4 h-4 text-game-combat" />
-              <span className="text-muted-foreground">Cible:</span>
-              <span className="text-foreground font-medium">{targetPlanet}</span>
+              <span className="text-slate-400">Cible:</span>
+              <span className="text-slate-100 font-medium">{targetPlanet}</span>
             </div>
             <div className="flex items-center gap-2 text-sm">
               <Zap className="w-4 h-4 text-game-commerce" />
-              <span className="text-muted-foreground">Puissance:</span>
+              <span className="text-slate-400">Puissance:</span>
               <span className="text-game-combat font-mono font-semibold">{estimatedPower.toLocaleString()}</span>
             </div>
           </div>
 
           {/* Attacker info */}
           <div className="flex items-center gap-2 text-sm mb-3">
-            <span className="text-muted-foreground">Attaquant:</span>
+            <span className="text-slate-400">Attaquant:</span>
             <span className="text-game-combat font-semibold">{attackerName}</span>
             {attackerAlliance && (
-              <span className="text-muted-foreground">{attackerAlliance}</span>
+              <span className="text-slate-400">{attackerAlliance}</span>
             )}
           </div>
 
           {/* Fleet composition preview */}
-          <div className="flex items-center gap-3 text-xs text-muted-foreground">
+          <div className="flex items-center gap-3 text-xs text-slate-400">
             <Ship className="w-3 h-3" />
             {fleetComposition.slice(0, 3).map((unit, i) => (
-              <span key={i} className="bg-secondary/50 px-2 py-0.5 rounded">
+              <span key={i} className="bg-secondary/50 px-2 py-0.5 rounded text-slate-300">
                 {unit.count}× {unit.name}
               </span>
             ))}
@@ -92,7 +96,7 @@ export function AttackMessageCard({ message }: AttackMessageCardProps) {
 
         {/* Right side - Time info */}
         <div className="flex-shrink-0 text-right">
-          <div className="text-xs text-muted-foreground mb-1">
+          <div className="text-xs text-slate-400 mb-1">
             {timestamp.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
           </div>
           <div className={cn(
@@ -102,7 +106,7 @@ export function AttackMessageCard({ message }: AttackMessageCardProps) {
             <Clock className="w-4 h-4 text-game-combat" />
             <span className="font-mono text-game-combat font-bold text-lg">{impactTime}</span>
           </div>
-          <div className="text-[10px] text-muted-foreground mt-1 uppercase tracking-wide">
+          <div className="text-[10px] text-slate-400 mt-1 uppercase tracking-wide">
             Impact
           </div>
         </div>

@@ -1,15 +1,18 @@
 import { PlayerMessage } from '@/types/messages';
 import { MessageBadge } from './MessageBadge';
+import { SeverityBadge } from './SeverityBadge';
 import { cn } from '@/lib/utils';
 import { User, Users, Shield, Swords, HelpCircle } from 'lucide-react';
 
 interface PlayerMessageCardProps {
   message: PlayerMessage;
+  onClick?: () => void;
 }
 
-export function PlayerMessageCard({ message }: PlayerMessageCardProps) {
+export function PlayerMessageCard({ message, onClick }: PlayerMessageCardProps) {
   const { 
-    isRead, 
+    isRead,
+    severity,
     title,
     senderName, 
     senderAlliance, 
@@ -30,6 +33,7 @@ export function PlayerMessageCard({ message }: PlayerMessageCardProps) {
 
   return (
     <div
+      onClick={onClick}
       className={cn(
         'relative rounded-lg border p-4 transition-all duration-200 cursor-pointer',
         'bg-panel border-panel-border',
@@ -56,7 +60,8 @@ export function PlayerMessageCard({ message }: PlayerMessageCardProps) {
 
         {/* Content */}
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-1">
+          <div className="flex items-center gap-2 mb-1 flex-wrap">
+            <SeverityBadge severity={severity} />
             <MessageBadge type="player" />
             <MessageBadge type="private" />
             {!isRead && <span className="unread-dot" />}
@@ -68,10 +73,10 @@ export function PlayerMessageCard({ message }: PlayerMessageCardProps) {
           
           {/* Sender info */}
           <div className="flex items-center gap-2 text-sm mb-3">
-            <span className="text-muted-foreground">De:</span>
+            <span className="text-slate-400">De:</span>
             <span className={cn('font-semibold', config.color)}>{senderName}</span>
             {senderAlliance && (
-              <span className="text-muted-foreground">{senderAlliance}</span>
+              <span className="text-slate-400">{senderAlliance}</span>
             )}
             <span className={cn(
               'inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wide',
@@ -84,18 +89,23 @@ export function PlayerMessageCard({ message }: PlayerMessageCardProps) {
             </span>
           </div>
 
-          {/* Message preview */}
-          <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
-            {content}
-          </p>
+          {/* Message preview with fade */}
+          <div className="relative">
+            <p className="text-sm text-slate-300 line-clamp-2 leading-relaxed">
+              {content}
+            </p>
+            {content.length > 150 && (
+              <div className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-panel to-transparent pointer-events-none" />
+            )}
+          </div>
         </div>
 
         {/* Right side */}
         <div className="flex-shrink-0 text-right">
-          <div className="text-xs text-muted-foreground">
+          <div className="text-xs text-slate-400">
             {timestamp.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
           </div>
-          <div className="text-[10px] text-muted-foreground mt-1">
+          <div className="text-[10px] text-slate-500 mt-1">
             {timestamp.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' })}
           </div>
         </div>
