@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Message } from '@/types/messages';
 import { MessageCard } from './MessageCard';
 import { MessageDetailDrawer } from './MessageDetailDrawer';
-import { cn } from '@/lib/utils';
 import { Inbox } from 'lucide-react';
 
 interface MessagesListProps {
@@ -20,7 +19,6 @@ export function MessagesList({ messages }: MessagesListProps) {
 
   const handleCloseDrawer = () => {
     setDrawerOpen(false);
-    setSelectedMessage(null);
   };
 
   if (messages.length === 0) {
