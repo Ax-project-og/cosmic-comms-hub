@@ -1,16 +1,19 @@
 import { EspionageMessage } from '@/types/messages';
 import { MessageBadge } from './MessageBadge';
+import { SeverityBadge } from './SeverityBadge';
 import { cn } from '@/lib/utils';
 import { Eye, EyeOff, Target, Shield, Swords, Gem, Hexagon, Zap, AlertTriangle, ThumbsUp, ThumbsDown, RefreshCw } from 'lucide-react';
 
 interface EspionageMessageCardProps {
   message: EspionageMessage;
+  onClick?: () => void;
 }
 
-export function EspionageMessageCard({ message }: EspionageMessageCardProps) {
+export function EspionageMessageCard({ message, onClick }: EspionageMessageCardProps) {
   const { 
     isRead, 
     isCritical,
+    severity,
     subType,
     title,
     targetName,
@@ -35,6 +38,7 @@ export function EspionageMessageCard({ message }: EspionageMessageCardProps) {
 
   return (
     <div
+      onClick={onClick}
       className={cn(
         'relative rounded-lg border p-4 transition-all duration-200 cursor-pointer',
         'bg-panel border-panel-border',
@@ -59,7 +63,8 @@ export function EspionageMessageCard({ message }: EspionageMessageCardProps) {
 
         {/* Content */}
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-1">
+          <div className="flex items-center gap-2 mb-1 flex-wrap">
+            <SeverityBadge severity={severity} />
             <MessageBadge type="espionage" />
             {isDetected && <MessageBadge type="alert" />}
             {!isRead && <span className="unread-dot" />}
@@ -73,11 +78,11 @@ export function EspionageMessageCard({ message }: EspionageMessageCardProps) {
           <div className="flex items-center gap-3 text-sm mb-3">
             <div className="flex items-center gap-1">
               <Target className="w-4 h-4 text-game-espionage" />
-              <span className="text-muted-foreground">Cible:</span>
-              {targetName && <span className="text-foreground font-medium">{targetName}</span>}
-              <span className="text-muted-foreground">•</span>
-              <span className="text-foreground">{targetPlanet}</span>
-              <span className="font-mono text-muted-foreground">{targetCoords}</span>
+              <span className="text-slate-400">Cible:</span>
+              {targetName && <span className="text-slate-100 font-medium">{targetName}</span>}
+              <span className="text-slate-500">•</span>
+              <span className="text-slate-200">{targetPlanet}</span>
+              <span className="font-mono text-slate-400">{targetCoords}</span>
             </div>
           </div>
 
@@ -86,18 +91,18 @@ export function EspionageMessageCard({ message }: EspionageMessageCardProps) {
             <>
               {/* Resources */}
               <div className="flex flex-wrap items-center gap-4 mb-3 p-3 bg-secondary/30 rounded-lg">
-                <div className="text-[10px] text-muted-foreground uppercase tracking-wide">Ressources:</div>
+                <div className="text-[10px] text-slate-400 uppercase tracking-wide">Ressources:</div>
                 <div className="flex items-center gap-1">
                   <Hexagon className="w-3 h-3 text-slate-400" />
-                  <span className="font-mono text-sm text-foreground">{resources.metal.toLocaleString()}</span>
+                  <span className="font-mono text-sm text-slate-100">{resources.metal.toLocaleString()}</span>
                 </div>
                 <div className="flex items-center gap-1">
                   <Gem className="w-3 h-3 text-purple-400" />
-                  <span className="font-mono text-sm text-foreground">{resources.crystal.toLocaleString()}</span>
+                  <span className="font-mono text-sm text-slate-100">{resources.crystal.toLocaleString()}</span>
                 </div>
                 <div className="flex items-center gap-1">
                   <Zap className="w-3 h-3 text-yellow-400" />
-                  <span className="font-mono text-sm text-foreground">{resources.energy.toLocaleString()}</span>
+                  <span className="font-mono text-sm text-slate-100">{resources.energy.toLocaleString()}</span>
                 </div>
               </div>
 
@@ -106,15 +111,15 @@ export function EspionageMessageCard({ message }: EspionageMessageCardProps) {
                 {fleetPower !== undefined && (
                   <div className="flex items-center gap-2">
                     <Swords className="w-4 h-4 text-game-combat" />
-                    <span className="text-muted-foreground">Flotte:</span>
-                    <span className="font-mono font-semibold text-foreground">{fleetPower.toLocaleString()}</span>
+                    <span className="text-slate-400">Flotte:</span>
+                    <span className="font-mono font-semibold text-slate-100">{fleetPower.toLocaleString()}</span>
                   </div>
                 )}
                 {defensePower !== undefined && (
                   <div className="flex items-center gap-2">
                     <Shield className="w-4 h-4 text-game-system" />
-                    <span className="text-muted-foreground">Défense:</span>
-                    <span className="font-mono font-semibold text-foreground">{defensePower.toLocaleString()}</span>
+                    <span className="text-slate-400">Défense:</span>
+                    <span className="font-mono font-semibold text-slate-100">{defensePower.toLocaleString()}</span>
                   </div>
                 )}
               </div>
@@ -145,7 +150,7 @@ export function EspionageMessageCard({ message }: EspionageMessageCardProps) {
           {isDetected && (
             <div className="flex items-center gap-2 p-3 bg-game-combat/10 border border-game-combat/30 rounded-lg">
               <AlertTriangle className="w-5 h-5 text-game-combat" />
-              <span className="text-sm text-game-combat">
+              <span className="text-sm text-slate-200">
                 Une sonde d'espionnage ennemie a été détectée sur {targetPlanet}. 
                 Votre position a été compromise.
               </span>
@@ -155,7 +160,7 @@ export function EspionageMessageCard({ message }: EspionageMessageCardProps) {
 
         {/* Right side */}
         <div className="flex-shrink-0 text-right">
-          <div className="text-xs text-muted-foreground mb-2">
+          <div className="text-xs text-slate-400 mb-2">
             {timestamp.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
           </div>
           

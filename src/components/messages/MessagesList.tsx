@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { Message } from '@/types/messages';
 import { MessageCard } from './MessageCard';
+import { MessageDetailDrawer } from './MessageDetailDrawer';
 import { cn } from '@/lib/utils';
 import { Inbox } from 'lucide-react';
 
@@ -8,6 +10,19 @@ interface MessagesListProps {
 }
 
 export function MessagesList({ messages }: MessagesListProps) {
+  const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const handleMessageClick = (message: Message) => {
+    setSelectedMessage(message);
+    setDrawerOpen(true);
+  };
+
+  const handleCloseDrawer = () => {
+    setDrawerOpen(false);
+    setSelectedMessage(null);
+  };
+
   if (messages.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-16 text-center">
@@ -17,7 +32,7 @@ export function MessagesList({ messages }: MessagesListProps) {
         <h3 className="text-lg font-semibold text-foreground mb-2 font-display">
           Aucun message
         </h3>
-        <p className="text-sm text-muted-foreground max-w-md">
+        <p className="text-sm text-slate-400 max-w-md">
           Vous n'avez aucun message dans cette catégorie pour le moment.
         </p>
       </div>
@@ -39,19 +54,30 @@ export function MessagesList({ messages }: MessagesListProps) {
   });
 
   return (
-    <div className="space-y-3">
-      {sortedMessages.map((message, index) => (
-        <div
-          key={message.id}
-          className={cn(
-            'animate-fade-in',
-            `animation-delay-${index * 50}`
-          )}
-          style={{ animationDelay: `${index * 50}ms` }}
-        >
-          <MessageCard message={message} />
-        </div>
-      ))}
-    </div>
+    <>
+      <div className="space-y-3">
+        {sortedMessages.map((message, index) => (
+          <div
+            key={message.id}
+            className={cn(
+              'animate-fade-in',
+              `animation-delay-${index * 50}`
+            )}
+            style={{ animationDelay: `${index * 50}ms` }}
+          >
+            <MessageCard 
+              message={message} 
+              onClick={() => handleMessageClick(message)}
+            />
+          </div>
+        ))}
+      </div>
+
+      <MessageDetailDrawer
+        message={selectedMessage}
+        open={drawerOpen}
+        onClose={handleCloseDrawer}
+      />
+    </>
   );
 }

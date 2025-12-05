@@ -1,15 +1,18 @@
 import { CommerceMessage } from '@/types/messages';
 import { MessageBadge } from './MessageBadge';
+import { SeverityBadge } from './SeverityBadge';
 import { cn } from '@/lib/utils';
 import { ArrowRightLeft, Check, X, Clock, Truck, Gem, Zap, Hexagon } from 'lucide-react';
 
 interface CommerceMessageCardProps {
   message: CommerceMessage;
+  onClick?: () => void;
 }
 
-export function CommerceMessageCard({ message }: CommerceMessageCardProps) {
+export function CommerceMessageCard({ message, onClick }: CommerceMessageCardProps) {
   const { 
-    isRead, 
+    isRead,
+    severity,
     title,
     traderName, 
     status, 
@@ -37,6 +40,7 @@ export function CommerceMessageCard({ message }: CommerceMessageCardProps) {
 
   return (
     <div
+      onClick={onClick}
       className={cn(
         'relative rounded-lg border p-4 transition-all duration-200 cursor-pointer',
         'bg-panel border-panel-border',
@@ -56,7 +60,8 @@ export function CommerceMessageCard({ message }: CommerceMessageCardProps) {
 
         {/* Content */}
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-1">
+          <div className="flex items-center gap-2 mb-1 flex-wrap">
+            <SeverityBadge severity={severity} />
             <MessageBadge type="commerce" />
             {status === 'pending' && <MessageBadge type="offer" />}
             {!isRead && <span className="unread-dot" />}
@@ -66,7 +71,7 @@ export function CommerceMessageCard({ message }: CommerceMessageCardProps) {
             {title}
           </h3>
           
-          <p className="text-sm text-muted-foreground mb-3">
+          <p className="text-sm text-slate-300 mb-3">
             Marchand: <span className="text-game-commerce font-medium">{traderName}</span>
           </p>
 
@@ -74,7 +79,7 @@ export function CommerceMessageCard({ message }: CommerceMessageCardProps) {
           <div className="flex items-center gap-4 mb-2">
             {/* You receive */}
             <div className="flex-1 bg-secondary/30 rounded-lg p-3">
-              <div className="text-[10px] text-muted-foreground uppercase tracking-wide mb-2">
+              <div className="text-[10px] text-slate-400 uppercase tracking-wide mb-2">
                 Vous recevez
               </div>
               <div className="flex flex-wrap gap-2">
@@ -99,11 +104,11 @@ export function CommerceMessageCard({ message }: CommerceMessageCardProps) {
               </div>
             </div>
 
-            <ArrowRightLeft className="w-5 h-5 text-muted-foreground flex-shrink-0" />
+            <ArrowRightLeft className="w-5 h-5 text-slate-500 flex-shrink-0" />
 
             {/* You give */}
             <div className="flex-1 bg-secondary/30 rounded-lg p-3">
-              <div className="text-[10px] text-muted-foreground uppercase tracking-wide mb-2">
+              <div className="text-[10px] text-slate-400 uppercase tracking-wide mb-2">
                 Vous donnez
               </div>
               <div className="flex flex-wrap gap-2">
@@ -131,7 +136,7 @@ export function CommerceMessageCard({ message }: CommerceMessageCardProps) {
 
           {/* Fleet ETA */}
           {fleetETA && status === 'pending' && (
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+            <div className="flex items-center gap-2 text-xs text-slate-400">
               <Truck className="w-3 h-3" />
               <span>Flotte commerciale en route — ETA:</span>
               <span className="font-mono text-game-commerce">{fleetETA}</span>
@@ -141,7 +146,7 @@ export function CommerceMessageCard({ message }: CommerceMessageCardProps) {
 
         {/* Right side */}
         <div className="flex-shrink-0 text-right">
-          <div className="text-xs text-muted-foreground mb-2">
+          <div className="text-xs text-slate-400 mb-2">
             {timestamp.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
           </div>
           <div className={cn(

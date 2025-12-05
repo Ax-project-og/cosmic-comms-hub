@@ -19,7 +19,7 @@ export function MessagesHeader({ totalUnread, criticalUnread }: MessagesHeaderPr
               <h1 className="text-2xl font-bold font-display text-foreground tracking-wide">
                 Messages
               </h1>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-slate-400">
                 Centre de communication
               </p>
             </div>
@@ -30,9 +30,9 @@ export function MessagesHeader({ totalUnread, criticalUnread }: MessagesHeaderPr
         <div className="flex items-center gap-3">
           {criticalUnread > 0 && (
             <div className={cn(
-              'flex items-center gap-2 px-3 py-2 rounded-lg',
+              'flex items-center gap-2 px-4 py-2.5 rounded-lg',
               'bg-game-combat/20 border border-game-combat/40',
-              'animate-pulse'
+              'badge-critical-glow'
             )}>
               <AlertTriangle className="w-4 h-4 text-game-combat" />
               <span className="font-display font-semibold text-game-combat">
@@ -43,8 +43,9 @@ export function MessagesHeader({ totalUnread, criticalUnread }: MessagesHeaderPr
           
           {totalUnread > 0 && (
             <div className={cn(
-              'flex items-center gap-2 px-3 py-2 rounded-lg',
-              'bg-primary/20 border border-primary/40'
+              'flex items-center gap-2 px-4 py-2.5 rounded-lg',
+              'bg-primary/20 border border-primary/40',
+              'badge-unread-glow'
             )}>
               <Bell className="w-4 h-4 text-primary" />
               <span className="font-display font-semibold text-primary">

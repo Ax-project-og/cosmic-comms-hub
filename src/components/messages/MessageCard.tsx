@@ -8,27 +8,28 @@ import { EspionageMessageCard } from './EspionageMessageCard';
 
 interface MessageCardProps {
   message: Message;
+  onClick?: () => void;
 }
 
-export function MessageCard({ message }: MessageCardProps) {
+export function MessageCard({ message, onClick }: MessageCardProps) {
   switch (message.type) {
     case 'combat':
       if (message.subType === 'attack_incoming') {
-        return <AttackMessageCard message={message} />;
+        return <AttackMessageCard message={message} onClick={onClick} />;
       }
-      return <CombatReportCard message={message} />;
+      return <CombatReportCard message={message} onClick={onClick} />;
     
     case 'player':
-      return <PlayerMessageCard message={message} />;
+      return <PlayerMessageCard message={message} onClick={onClick} />;
     
     case 'system':
-      return <SystemMessageCard message={message} />;
+      return <SystemMessageCard message={message} onClick={onClick} />;
     
     case 'commerce':
-      return <CommerceMessageCard message={message} />;
+      return <CommerceMessageCard message={message} onClick={onClick} />;
     
     case 'espionage':
-      return <EspionageMessageCard message={message} />;
+      return <EspionageMessageCard message={message} onClick={onClick} />;
     
     default:
       return null;

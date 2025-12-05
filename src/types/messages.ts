@@ -10,6 +10,8 @@ export type MessageSubType =
   | 'spy_report'
   | 'spy_detected';
 
+export type MessageSeverity = 'critical' | 'alert' | 'info' | 'communication';
+
 export interface BaseMessage {
   id: string;
   type: MessageType;
@@ -18,6 +20,7 @@ export interface BaseMessage {
   timestamp: Date;
   isRead: boolean;
   isCritical: boolean;
+  severity: MessageSeverity;
 }
 
 export interface AttackMessage extends BaseMessage {
