@@ -4,8 +4,6 @@ import {
   SheetContent,
   SheetHeader,
   SheetTitle,
-  SheetFooter,
-  SheetClose,
 } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { MessageBadge } from './MessageBadge';
@@ -129,12 +127,10 @@ export function MessageDetailDrawer({ message, open, onClose }: MessageDetailDra
           {renderContent()}
         </ScrollArea>
 
-        <SheetFooter className="border-t border-panel-border p-6 pt-4 flex-col gap-2">
+        <div className="border-t border-panel-border p-6 pt-4 flex flex-col gap-2">
           {renderActions()}
-          <SheetClose asChild>
-            <Button variant="ghost" className="w-full">Fermer</Button>
-          </SheetClose>
-        </SheetFooter>
+          <Button variant="ghost" className="w-full" onClick={onClose}>Fermer</Button>
+        </div>
       </SheetContent>
     </Sheet>
   );
